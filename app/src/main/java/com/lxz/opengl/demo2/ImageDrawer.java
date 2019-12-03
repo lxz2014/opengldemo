@@ -142,6 +142,10 @@ public class ImageDrawer implements IDrawer {
 
     @Override
     public void release() {
-
+        GLES20.glDisableVertexAttribArray(mVertexPosHandler);
+        GLES20.glDisableVertexAttribArray(mTexturePosHandler);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+        GLES20.glDeleteTextures(1, Utils.intArrayOf(mTextureId), 0);
+        GLES20.glDeleteProgram(mProgram);
     }
 }
