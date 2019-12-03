@@ -29,13 +29,13 @@ public class ImageDrawer implements IDrawer {
     //-------【注2：新增纹理接收者】-------
     // 纹理接收者
     private int mTextureId = -1;
-    private int mProgram;
+    private int mProgram = -1;
 
     private FloatBuffer mVertexBuffer;
     private FloatBuffer mTextureBuffer;
-    private int mVertexPosHandler;
-    private int mTexturePosHandler;
-    private int mTextureHandler;
+    private int mVertexPosHandler = -1;
+    private int mTexturePosHandler = -1;
+    private int mTextureHandler = -1;
     private Bitmap mBitmap;
 
     public ImageDrawer(Bitmap bmp) {
@@ -83,6 +83,7 @@ public class ImageDrawer implements IDrawer {
             mVertexPosHandler = GLES20.glGetAttribLocation(mProgram, "aPosition");
             mTexturePosHandler = GLES20.glGetAttribLocation(mProgram, "aCoordinate");
             mTextureHandler = GLES20.glGetUniformLocation(mProgram, "uTexture");
+            Lg.e(TAG, "mVertexPosHandler %d mTexturePosHandler %d mTextureHandler %d", mVertexPosHandler, mTexturePosHandler, mTextureHandler);
         }
         //使用OpenGL程序
         GLES20.glUseProgram(mProgram);
@@ -120,7 +121,7 @@ public class ImageDrawer implements IDrawer {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
     }
 
-    private String getVertexShader() {
+    private String getVertexShader(){
         return "attribute vec4 aPosition;" +
                 "attribute vec2 aCoordinate;" +
                 "varying vec2 vCoordinate;" +
@@ -130,7 +131,7 @@ public class ImageDrawer implements IDrawer {
                 "}";
     }
 
-    private String getFragmentShader() {
+    private String getFragmentShader(){
         return "precision mediump float;" +
                 "uniform sampler2D uTexture;" +
                 "varying vec2 vCoordinate;" +

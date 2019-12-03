@@ -104,6 +104,7 @@ public class TriangleDrawer implements IDrawer {
     }
 
     private void doDraw() {
+        Lg.e(TAG, "doDraw");
         //启用顶点的句柄
         GLES20.glEnableVertexAttribArray(mVertexPosHandler);
         GLES20.glEnableVertexAttribArray(mTexturePosHandler);

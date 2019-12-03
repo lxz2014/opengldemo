@@ -1,15 +1,19 @@
 package com.lxz.opengl.demo2;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.lxz.opengl.Lg;
 import com.lxz.opengl.R;
 import com.lxz.opengl.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private GLSurfaceView gl_surface;
     private IDrawer drawer;
 
@@ -24,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        drawer = new TriangleDrawer();
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.teacher_img_head);
+        //drawer = new TriangleDrawer();
+        Lg.d(TAG, "BMP %d %d", bmp.getWidth(), bmp.getHeight());
+        drawer = new ImageDrawer(bmp);
         initRender(new SimpleRender(drawer));
     }
 
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         drawer.release();
     }
 
-    //    @Override
+//        @Override
 //    protected void onPause() {
 //        super.onPause();
 //        gl_surface.onPause();
