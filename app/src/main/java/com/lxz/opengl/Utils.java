@@ -5,10 +5,14 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.opengl.GLES20;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
+
+import okio.BufferedSource;
 
 public class Utils {
     public static boolean supportGlEs20(Activity activity) {
@@ -38,9 +42,53 @@ public class Utils {
         return floatBuffer;
     }
 
-    public static int[] intArrayOf(int id) {
-        int []d = new int[1];
-        d[0] = id;
-        return d;
+    public static int[] intArrayOf(int ...ids) {
+        if (ids == null || ids.length == 0) {
+            return null;
+        }
+        return ids;
+    }
+
+    public static void sleep(int realTime) {
+        try {
+            Thread.sleep(realTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ;
+    }
+
+    public static void closeIo(Closeable source) {
+        if (source != null) {
+            try {
+                source.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 整型转换成字节数组
+     */
+    public static byte[] int2bytes(int i){
+        byte[] bt = new byte[4];
+        bt[0] = (byte) (0xff & i);
+        bt[1] = (byte) ((0xff00 & i) >> 8);
+        bt[2] = (byte) ((0xff0000 & i) >> 16);
+        bt[3] = (byte) ((0xff000000 & i) >> 24);
+        return bt;
+    }
+
+    /**
+     * 字节数组转成int
+     */
+    public static int bytes2int(byte[] bytes){
+        int value, offset = 0;
+        value = (int) ((bytes[offset] & 0xFF)
+                | ((bytes[offset + 1] << 8) & 0xFF00)
+                | ((bytes[offset + 2] << 16) & 0xFF0000)
+                | ((bytes[offset + 3] << 24) & 0xFF000000));
+        return value;
     }
 }

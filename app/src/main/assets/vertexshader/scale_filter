@@ -1,0 +1,19 @@
+attribute vec4 aPosition;
+uniform mat4 uMatrix;
+attribute vec2 aCoordinate;
+varying vec2 vCoordinate;
+uniform float updateTime;
+const float PI = 3.1415926;
+void main() {
+    // 一次缩放效果时长
+    float duration = 16.0;
+    // 最大缩放幅度
+    float maxAmplitude = 0.3;
+    // 表示时间周期.范围[0.0~x];
+    float time = mod(updateTime, duration);
+    // amplitude [1.0,1.3]
+    float amplitude = 1.0 + maxAmplitude * abs(sin(time * (PI / duration)));
+    // 顶点坐标x/y 分别乘以放大系数[1.0,1.3]
+    gl_Position = vec4(aPosition.x * amplitude, aPosition.y * amplitude, aPosition.zw);
+    vCoordinate = aCoordinate;
+}

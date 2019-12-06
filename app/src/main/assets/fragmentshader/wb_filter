@@ -1,0 +1,10 @@
+#extension GL_OES_EGL_image_external : require
+precision mediump float;
+varying vec2 vCoordinate;
+uniform samplerExternalOES uTexture;
+void main() {
+  vec4 color = texture2D(uTexture, vCoordinate);
+  // 灰度颜色
+  float gray = (color.r + color.g + color.b)/3.0;
+  gl_FragColor = vec4(gray, gray, gray, 1.0);
+}

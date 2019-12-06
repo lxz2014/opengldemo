@@ -1,4 +1,4 @@
-package com.lxz.opengl.demo2;
+package com.lxz.opengl.demo2_glsurface.drawer;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
@@ -6,6 +6,7 @@ import android.opengl.GLUtils;
 
 import com.lxz.opengl.Lg;
 import com.lxz.opengl.Utils;
+import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
 
 import java.nio.FloatBuffer;
 
@@ -43,6 +44,16 @@ public class ImageDrawer implements IDrawer {
         //将坐标数据转换为FloatBuffer，用以传入给OpenGL ES程序
         mVertexBuffer = Utils.asFloatBuffer(mVertexCoors);
         mTextureBuffer = Utils.asFloatBuffer(mTextureCoors);
+    }
+
+    @Override
+    public void setVideoSize(int videoW, int videoH) {
+
+    }
+
+    @Override
+    public void setWorldSize(int worldW, int worldH) {
+
     }
 
     @Override
@@ -91,14 +102,29 @@ public class ImageDrawer implements IDrawer {
 
     private void activateTexture() {
         //激活指定纹理单元
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
         //绑定纹理ID到纹理单元
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureId);
         //将激活的纹理单元传递到着色器里面
-        GLES20.glUniform1i(mTextureHandler, 0);
-        //配置边缘过渡参数
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLES20.glUniform1i(mTextureHandler, 1);
+
+        /**
+         * 纹理过滤
+         * GL_NEAREST
+         * 最近点过滤。指的是纹理坐标最靠近哪个纹素，就用哪个纹素。这是OpenGL默认的过滤方式，速度最快，但是效果最差。
+         * GL_LINEAR
+         * 双）线性过滤。指的是纹理坐标位置附近的几个纹素值进行某种插值计算之后的结果。这是应用最广泛的一种方式，效果一般，速度较快。
+         */
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);//缩小时的过滤方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR); //放大时的过滤方式
+
+        /**
+         * 纹理环绕方式
+         * GL_REPEAT： 默认方案，重复纹理图片。
+         * GL_MIRRORED_REPEAT：类似于默认方案，不过每次重复的时候进行镜像重复。
+         * GL_CLAMP_TP_EDGE：将坐标限制在0到1之间。超出的坐标会重复绘制边缘的像素，变成一种扩展边缘的图案。（通常很难看）
+         * GL_CLAMP_TO_BORDER：超出的坐标将会被绘制成用户指定的边界颜色。
+         */
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
     }
@@ -148,5 +174,10 @@ public class ImageDrawer implements IDrawer {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         GLES20.glDeleteTextures(1, Utils.intArrayOf(mTextureId), 0);
         GLES20.glDeleteProgram(mProgram);
+    }
+
+    @Override
+    public void setISurfaceTextureCreate(ISurfaceTextureCreate listener) {
+
     }
 }

@@ -1,4 +1,4 @@
-package com.lxz.opengl.demo2;
+package com.lxz.opengl.demo2_glsurface;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,10 +9,12 @@ import android.widget.Toast;
 import com.lxz.opengl.Lg;
 import com.lxz.opengl.R;
 import com.lxz.opengl.Utils;
+import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
+import com.lxz.opengl.demo2_glsurface.drawer.ImageDrawer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class ImageDrawActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private GLSurfaceView gl_surface;
     private IDrawer drawer;
@@ -45,16 +47,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         drawer.release();
     }
-
-//        @Override
-//    protected void onPause() {
-//        super.onPause();
-//        gl_surface.onPause();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        gl_surface.onResume();
-//    }
 }

@@ -1,19 +1,15 @@
-package com.lxz.opengl.demo2;
+package com.lxz.opengl.demo2_glsurface.drawer;
 
 import android.opengl.GLES20;
-import android.util.Log;
 
 import com.lxz.opengl.Lg;
 import com.lxz.opengl.Utils;
+import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class TriangleDrawer implements IDrawer {
     private static final String TAG = "TriangleDrawer";
-
-    private float count = 0;
     //顶点坐标
     private float[] mVertexCoors = new float[]{
             -1f, -1f,
@@ -63,6 +59,16 @@ public class TriangleDrawer implements IDrawer {
         //将坐标数据转换为FloatBuffer，用以传入给OpenGL ES程序
         mVertexBuffer = Utils.asFloatBuffer(mVertexCoors);
         mTextureBuffer = Utils.asFloatBuffer(mTextureCoors);
+    }
+
+    @Override
+    public void setVideoSize(int videoW, int videoH) {
+
+    }
+
+    @Override
+    public void setWorldSize(int worldW, int worldH) {
+
     }
 
     @Override
@@ -123,5 +129,10 @@ public class TriangleDrawer implements IDrawer {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         GLES20.glDeleteTextures(1, Utils.intArrayOf(mTextureId), 0);
         GLES20.glDeleteProgram(mProgram);
+    }
+
+    @Override
+    public void setISurfaceTextureCreate(ISurfaceTextureCreate listener) {
+
     }
 }
