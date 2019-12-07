@@ -23,20 +23,11 @@ import com.lxz.opengl.comm.BaseActivity;
 import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
 import com.lxz.opengl.demo2_glsurface.PlayVideoActivity;
 import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
-import com.lxz.opengl.demo2_glsurface.drawer.VideoDrawer;
 import com.lxz.opengl.demo2_glsurface.drawer.VideoSpiritLeftFilterDrawer;
 import com.lxz.opengl.demo3_egl.RenderThread;
-import com.lxz.opengl.media.decode.MediaDecode;
-import com.lxz.opengl.media.decode.VideoPlay;
 import com.lxz.opengl.media.encode.IEncoder;
 import com.lxz.opengl.media.encode.SurfaceEncoder;
 import com.lxz.opengl.media.stream.FileH264Stream;
-import com.lxz.opengl.media.stream.FileH264Stream2;
-import com.lxz.opengl.media.stream.IH264Stream;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import androidx.annotation.Nullable;
 
@@ -127,7 +118,7 @@ public class EGLEncodeActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        encoder = new SurfaceEncoder(new FileH264Stream2(), screenWidth, screenHeight);
+        encoder = new SurfaceEncoder(new FileH264Stream(), screenWidth, screenHeight);
 
         renderThread = new RenderThread(drawer, encoder.getSurface());
         renderThread.start();

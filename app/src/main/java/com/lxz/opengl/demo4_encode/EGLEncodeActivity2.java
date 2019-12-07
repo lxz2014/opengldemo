@@ -1,16 +1,8 @@
 package com.lxz.opengl.demo4_encode;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
-import android.hardware.display.DisplayManager;
-import android.hardware.display.VirtualDisplay;
-import android.media.projection.MediaProjection;
-import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Surface;
 import android.view.SurfaceView;
@@ -24,7 +16,6 @@ import com.lxz.opengl.comm.BaseActivity;
 import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
 import com.lxz.opengl.demo2_glsurface.PlayVideoActivity;
 import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
-import com.lxz.opengl.demo2_glsurface.drawer.VideoDrawer;
 import com.lxz.opengl.demo2_glsurface.drawer.VideoSpiritLeftFilterDrawer;
 import com.lxz.opengl.demo3_egl.RenderThread;
 import com.lxz.opengl.media.decode.MediaDecode;
@@ -32,10 +23,6 @@ import com.lxz.opengl.media.decode.VideoPlay;
 import com.lxz.opengl.media.encode.IEncoder;
 import com.lxz.opengl.media.encode.SurfaceEncoder;
 import com.lxz.opengl.media.stream.FileH264Stream;
-import com.lxz.opengl.media.stream.FileH264Stream2;
-import com.lxz.opengl.media.stream.IH264Stream;
-
-import androidx.annotation.Nullable;
 
 public class EGLEncodeActivity2 extends BaseActivity implements View.OnClickListener {
     private final String TAG = getClass().getSimpleName();
@@ -89,7 +76,7 @@ public class EGLEncodeActivity2 extends BaseActivity implements View.OnClickList
                         Lg.e(TAG, "onSurfaceTextureCreate " + surfaceTexture);
                         MediaDecode decode = new MediaDecode(screenWidth, screenHeight);
                         decode.initDecode(inputSurface);
-                        new VideoPlay(new FileH264Stream2("save2"))
+                        new VideoPlay(new FileH264Stream("save2"))
                                 .setDecode(decode)
                                 .startPlay();
                     }
@@ -97,7 +84,7 @@ public class EGLEncodeActivity2 extends BaseActivity implements View.OnClickList
             }
         });
 
-        encoder = new SurfaceEncoder(new FileH264Stream2(), screenWidth, screenHeight);
+        encoder = new SurfaceEncoder(new FileH264Stream(), screenWidth, screenHeight);
 
         renderThread = new RenderThread(drawer, encoder.getSurface());
         renderThread.start();
