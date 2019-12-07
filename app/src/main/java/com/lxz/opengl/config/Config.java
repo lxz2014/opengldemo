@@ -14,4 +14,8 @@ public class Config {
     public static File getSaveFile() {
         return new File(Environment.getExternalStorageDirectory().getPath(), "save.h264");
     }
+
+    public static File getSaveFile(String name) {
+        return new File(Environment.getExternalStorageDirectory().getPath(), name + ".h264");
+    }
 }

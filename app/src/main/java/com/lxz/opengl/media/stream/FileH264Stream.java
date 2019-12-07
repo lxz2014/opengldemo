@@ -27,6 +27,10 @@ public class FileH264Stream extends BaseStream{
         saveFile = Config.getSaveFile();
     }
 
+    public FileH264Stream(String name) {
+        saveFile = Config.getSaveFile(name);
+    }
+
     private byte[] readNextFrame() {
         try {
             byte [] size = new byte[4];

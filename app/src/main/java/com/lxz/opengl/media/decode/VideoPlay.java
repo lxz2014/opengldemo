@@ -20,8 +20,9 @@ public class VideoPlay implements IRecvFrameCallback{
         this.h264Stream = h264Stream;
     }
 
-    public void setDecode(MediaDecode decode) {
+    public VideoPlay setDecode(MediaDecode decode) {
         this.decode = decode;
+        return this;
     }
 
     public void startPlay() {

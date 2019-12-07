@@ -22,12 +22,21 @@ import com.lxz.opengl.Utils;
 import com.lxz.opengl.comm.BaseActivity;
 import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
 import com.lxz.opengl.demo2_glsurface.PlayVideoActivity;
+import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
 import com.lxz.opengl.demo2_glsurface.drawer.VideoDrawer;
+import com.lxz.opengl.demo2_glsurface.drawer.VideoSpiritLeftFilterDrawer;
 import com.lxz.opengl.demo3_egl.RenderThread;
+import com.lxz.opengl.media.decode.MediaDecode;
+import com.lxz.opengl.media.decode.VideoPlay;
 import com.lxz.opengl.media.encode.IEncoder;
 import com.lxz.opengl.media.encode.SurfaceEncoder;
 import com.lxz.opengl.media.stream.FileH264Stream;
+import com.lxz.opengl.media.stream.FileH264Stream2;
 import com.lxz.opengl.media.stream.IH264Stream;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import androidx.annotation.Nullable;
 
@@ -36,8 +45,8 @@ public class EGLEncodeActivity extends BaseActivity implements View.OnClickListe
     private static final int REQUEST_CODE = 11;
     private final String TAG = getClass().getSimpleName();
 
-    Button start;
-    Button stop;
+    private Button start;
+    private Button stop;
 
     private MediaProjectionManager mediaProjectionManager;
     private MediaProjection mediaProjection;
@@ -46,8 +55,9 @@ public class EGLEncodeActivity extends BaseActivity implements View.OnClickListe
     private VirtualDisplay virtualDisplay;
     private int screenWidth = 1920;
     private int screenHeight = 1080;
-    private int dpi;
+    private int dpi = 1;
     private RenderThread renderThread;
+    private IEncoder encoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,22 +112,22 @@ public class EGLEncodeActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void startEGLRecode() {
-        IH264Stream outputStream = new FileH264Stream();
-        encoder = new SurfaceEncoder(outputStream, screenWidth, screenHeight);
-        VideoDrawer drawer = new VideoDrawer();
+        IDrawer drawer = new VideoSpiritLeftFilterDrawer();
         drawer.setISurfaceTextureCreate(new ISurfaceTextureCreate() {
             @Override
             public void onSurfaceTextureCreate(final SurfaceTexture surfaceTexture) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Surface inputSurface = new Surface(surfaceTexture);
-                        exeRecord(inputSurface);
-                        Lg.d(TAG, "onSurfaceTextureCreate " + surfaceTexture);
+                        Lg.e(TAG, "onSurfaceTextureCreate " + surfaceTexture);
+                        surfaceTexture.setDefaultBufferSize(screenWidth, screenHeight);
+                        exeRecord(new Surface(surfaceTexture));
                     }
                 });
             }
         });
+
+        encoder = new SurfaceEncoder(new FileH264Stream2(), screenWidth, screenHeight);
 
         renderThread = new RenderThread(drawer, encoder.getSurface());
         renderThread.start();
@@ -125,12 +135,14 @@ public class EGLEncodeActivity extends BaseActivity implements View.OnClickListe
         start.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Lg.e(TAG, "onSurfaceChange");
                 renderThread.onSurfaceChange(screenWidth, screenHeight);
             }
         }, 500);
+
     }
 
-    private IEncoder encoder;
+
     private void exeRecord(Surface inputSurface) {
         this.virtualDisplay = this.mediaProjection.createVirtualDisplay(
                 "Recording Display"
@@ -156,7 +168,7 @@ public class EGLEncodeActivity extends BaseActivity implements View.OnClickListe
                     }
                 },
                 new Handler());
-        //
+
         new Thread(new Runnable() {
             @Override
             public void run() {

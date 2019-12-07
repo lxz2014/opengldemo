@@ -24,6 +24,10 @@ public class FileH264Stream2 extends BaseStream{
     private AtomicBoolean isRecvEnd = new AtomicBoolean(true);
     private ByteString startCode = ByteString.of((byte)0x0, (byte)0x0, (byte)0x0, (byte)0x1);
 
+    public FileH264Stream2(String name) {
+        saveFile = Config.getSaveFile(name);
+    }
+
     public FileH264Stream2() {
         saveFile = Config.getSaveFile();
     }
@@ -34,11 +38,11 @@ public class FileH264Stream2 extends BaseStream{
             long endIndex  = source.indexOf(startCode, startIndex + 1);
             if (startIndex >= 0 && endIndex > 0) {
                 long len = endIndex - startIndex;
-                Lg.i(TAG, "startindex %d, endindex :%d, len:%d", startIndex, endIndex, len);
+               // Lg.i(TAG, "startindex %d, endindex :%d, len:%d", startIndex, endIndex, len);
                 return source.readByteArray(len);
             }
             else if (startIndex >= 0 && endIndex < 0) {
-                Lg.i(TAG, "2 startindex %d, endindex :%d", startIndex, endIndex);
+               // Lg.i(TAG, "2 startindex %d, endindex :%d", startIndex, endIndex);
                 return source.readByteArray();
             }
         } catch (IOException e) {
