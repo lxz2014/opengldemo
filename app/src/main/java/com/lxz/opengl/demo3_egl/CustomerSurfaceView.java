@@ -10,38 +10,35 @@ import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
 
 import java.lang.ref.WeakReference;
 
-public class CustomerRender extends SurfaceView implements SurfaceHolder.Callback {
+public class CustomerSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     //OpenGL渲染线程
-    private RenderThread mThread = new RenderThread(new WeakReference<CustomerRender>(this));
+    private RenderThread mThread ;
 
     //所有的绘制器
     private IDrawer mDrawer;
 
-    public CustomerRender(Context context) {
+    public CustomerSurfaceView(Context context) {
         super(context);
         init();
     }
 
-    public CustomerRender(Context context, AttributeSet attrs) {
+    public CustomerSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public CustomerRender(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomerSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    public CustomerRender(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomerSurfaceView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
     private void init() {
-        //启动渲染线程
-        mThread.start();
         getHolder().addCallback(this);
-
         addOnAttachStateChangeListener(new View.OnAttachStateChangeListener(){
 
             @Override
@@ -59,11 +56,10 @@ public class CustomerRender extends SurfaceView implements SurfaceHolder.Callbac
 
     public void setDrawer(IDrawer draw) {
         this.mDrawer = draw;
+        mThread = new RenderThread(draw, getHolder().getSurface());
+        mThread.start();
     }
 
-    public IDrawer getmDrawer() {
-        return mDrawer;
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {

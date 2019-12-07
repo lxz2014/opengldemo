@@ -11,9 +11,10 @@ import com.lxz.opengl.Lg;
 import com.lxz.opengl.R;
 import com.lxz.opengl.comm.BaseActivity;
 import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
+import com.lxz.opengl.demo2_glsurface.drawer.VideoDrawer;
 import com.lxz.opengl.demo2_glsurface.drawer.VideoSpiritLeftFilterDrawer;
-import com.lxz.opengl.media.dencode.MediaDecode;
-import com.lxz.opengl.media.dencode.VideoPlay;
+import com.lxz.opengl.media.decode.MediaDecode;
+import com.lxz.opengl.media.decode.VideoPlay;
 import com.lxz.opengl.media.stream.FileH264Stream;
 
 import androidx.annotation.Nullable;
@@ -34,9 +35,9 @@ public class PlayVideoActivity extends BaseActivity {
         gl_surface = findViewById(R.id.gl_surface);
         log();
 
-        //drawer = new VideoMatrixDrawer();
+        drawer = new VideoDrawer();
         //drawer = new VideoScaleFilterDrawer();
-        drawer = new VideoSpiritLeftFilterDrawer();
+        //drawer = new VideoSpiritLeftFilterDrawer();
         drawer.setVideoSize(width, height);
         drawer.setISurfaceTextureCreate(new ISurfaceTextureCreate() {
             @Override

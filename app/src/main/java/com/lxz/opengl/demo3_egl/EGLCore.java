@@ -127,7 +127,7 @@ public class EGLCore {
         }
 
         int[] surfaceAttr = Utils.intArrayOf(EGL14.EGL_NONE);
-
+        Lg.d(TAG, "createWindowSurface " + surface);
         EGLSurface eglSurface = EGL14.eglCreateWindowSurface(
                                       mEGLDisplay
                                     , mEGLConfig

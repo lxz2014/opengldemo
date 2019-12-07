@@ -22,14 +22,9 @@ public class FileH264Stream extends BaseStream{
     private BufferedSink sink;
     private IRecvFrameCallback callback;
     private AtomicBoolean isRecvEnd = new AtomicBoolean(true);
-    private byte[] startCode = new byte[]{(byte)0x0, (byte)0x0, (byte)0x0, (byte)0x1};
-
-    //private BufferedSink lenSink ;
-    private String lenFile;
 
     public FileH264Stream() {
         saveFile = Config.getSaveFile();
-        lenFile = Environment.getExternalStorageDirectory().getPath() + "/lenfile.txt";
     }
 
     private byte[] readNextFrame() {
@@ -88,7 +83,6 @@ public class FileH264Stream extends BaseStream{
         }).start();
     }
 
-    private int rowcount = 0;
     @Override
     public void writeFrame(byte[] h264Data) {
         if (sink == null) {

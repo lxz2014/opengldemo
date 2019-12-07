@@ -19,14 +19,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.lxz.opengl.demo3_egl.PlayEGLVideoActivity"
-            android:screenOrientation="landscape"
+        <activity android:name=".demo4_encode.EGLEncodeActivity"
             android:theme="@style/FullAct">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".demo2_glsurface.PlayVideoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullAct">
         </activity>
     </application>
 

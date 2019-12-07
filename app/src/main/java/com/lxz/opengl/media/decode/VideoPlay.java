@@ -1,4 +1,4 @@
-package com.lxz.opengl.media.dencode;
+package com.lxz.opengl.media.decode;
 
 import com.lxz.opengl.Lg;
 import com.lxz.opengl.Utils;

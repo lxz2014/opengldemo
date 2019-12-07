@@ -1,4 +1,4 @@
-package com.lxz.opengl.media.dencode;
+package com.lxz.opengl.media.decode;
 
 import android.media.MediaCodec;
 import android.media.MediaFormat;
@@ -6,7 +6,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import com.lxz.opengl.Lg;
-import com.lxz.opengl.media.stream.IH264Stream;
 
 import java.nio.ByteBuffer;
 

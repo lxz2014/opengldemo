@@ -99,19 +99,6 @@ public class VideoScaleFilterDrawer implements IDrawer {
         }
     }
 
-//    private void initDefMatrix() {
-//        if (mMatrix != null) return;
-//        if (mVideoWidth != -1 && mVideoHeight != -1 && mWorldWidth != -1 && mWorldHeight != -1) {
-//            mMatrix = new float[16];
-//            Matrix.orthoM(
-//                    mMatrix, 0,
-//                    -1f, 1f,
-//                    -1, 1,
-//                    -1f, 3f
-//            );
-//        }
-//    }
-
     private void createGLPrg() {
         if (mProgram == -1) {
             int vertexShader = Utils.loadShader(GLES20.GL_VERTEX_SHADER, getVertexShader());
@@ -132,9 +119,6 @@ public class VideoScaleFilterDrawer implements IDrawer {
             mVertexTimeHandler = GLES20.glGetUniformLocation(mProgram, "updateTime");
 
             Lg.d(TAG, "mTexturePosHandler %d mVertexTimeHandler %d" , mTexturePosHandler, mVertexTimeHandler);
-            //【新增2: 获取顶点着色器中的矩阵变量】
-//            mVertexMatrixHandler = GLES20.glGetUniformLocation(mProgram, "uMatrix");
-//            Lg.d(TAG, "mVertexMatrixHandler " + mVertexMatrixHandler);
         }
         //使用OpenGL程序
         GLES20.glUseProgram(mProgram);
@@ -166,16 +150,9 @@ public class VideoScaleFilterDrawer implements IDrawer {
         GLES20.glEnableVertexAttribArray(mTexturePosHandler);
 
         // 【新增3: 将变换矩阵传递给顶点着色器】
-        //GLES20.glUniformMatrix4fv(mVertexMatrixHandler, 1, false, mMatrix, 0);
         count++;
         //Lg.d(TAG, "time %f", count);
         GLES20.glUniform1f(mVertexTimeHandler, count);
-
-//        float duration = 6f;
-//        float maxAmplitude = 0.3f;
-//        float time = count / duration;
-//        float amplitude = (float) (1.0 + maxAmplitude * Math.abs(Math.sin(time * (Math.PI / duration))));
-//        Lg.d(TAG, "time %f  amplitude %f", time, amplitude);
 
         //设置着色器参数， 第二个参数表示一个顶点包含的数据数量，这里为xy，所以为2
         GLES20.glVertexAttribPointer(mVertexPosHandler, 2, GLES20.GL_FLOAT, false, 0, mVertexBuffer);

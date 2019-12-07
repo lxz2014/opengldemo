@@ -1,12 +1,11 @@
 package com.lxz.opengl.demo3_egl;
 
 import android.opengl.GLES20;
-import android.view.SurfaceView;
+import android.view.Surface;
 
 import com.lxz.opengl.Lg;
 import com.lxz.opengl.Utils;
-
-import java.lang.ref.WeakReference;
+import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
 
 import static android.opengl.EGLExt.EGL_RECORDABLE_ANDROID;
 
@@ -27,10 +26,12 @@ public class RenderThread extends Thread {
     private int mHeight = 0;
 
     private Object mWaitLock = new Object();
-    private WeakReference<CustomerRender> surfaceView;
+    private IDrawer drawer;
+    private Surface showSurface;
 
-    public RenderThread(WeakReference<CustomerRender> surfaceView) {
-        this.surfaceView = surfaceView;
+    public RenderThread(IDrawer drawer, Surface surface) {
+        this.drawer = drawer;
+        this.showSurface = surface;
     }
 
     //------------第1部分：线程等待与解锁-----------------
@@ -97,15 +98,18 @@ public class RenderThread extends Thread {
             }
             else if (mState == RenderState.RENDERING ) {
                 //【4】进入循环渲染
+                Lg.d(TAG, "surface_render");
                 render();
             }
             else if (mState == RenderState.SURFACE_DESTROY) {
                 //【5】销毁EGLSurface，并解绑上下文
+                Lg.d(TAG, "surface_destroy");
                 destroyEGLSurface();
                 mState = RenderState.NO_SURFACE;
             }
             else if (mState == RenderState.STOP ) {
                 //【6】释放所有资源
+                Lg.d(TAG, "surface_stop");
                 releaseEGL();
                 return;
             }
@@ -139,7 +143,7 @@ public class RenderThread extends Thread {
     }
 
     private void createEGLSurface() {
-        mEGLSurface.createEGLSurface(surfaceView.get().getHolder().getSurface(), -1, -1);
+        mEGLSurface.createEGLSurface(showSurface, -1, -1);
         mEGLSurface.makeCurrent();
     }
 
@@ -156,16 +160,16 @@ public class RenderThread extends Thread {
 
     private void generateTextureID() {
         int [] textureIds = Utils.createTextureIds(1);
-        surfaceView.get().getmDrawer().setTextureID(textureIds[0]);
+        drawer.setTextureID(textureIds[0]);
     }
 
     private void configWordSize() {
-        surfaceView.get().getmDrawer().setWorldSize(mWidth, mHeight);
+        drawer.setWorldSize(mWidth, mHeight);
     }
 
     private void render() {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT & GLES20.GL_DEPTH_BUFFER_BIT);
-        surfaceView.get().getmDrawer().draw();
+        drawer.draw();
         mEGLSurface.swapBuffers();
     }
 }

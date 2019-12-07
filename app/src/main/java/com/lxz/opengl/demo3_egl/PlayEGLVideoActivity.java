@@ -1,27 +1,24 @@
 package com.lxz.opengl.demo3_egl;
 
 import android.graphics.SurfaceTexture;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.lxz.opengl.Lg;
 import com.lxz.opengl.R;
 import com.lxz.opengl.comm.BaseActivity;
 import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
-import com.lxz.opengl.demo2_glsurface.SimpleRender;
 import com.lxz.opengl.demo2_glsurface.drawer.IDrawer;
 import com.lxz.opengl.demo2_glsurface.drawer.VideoSpiritLeftFilterDrawer;
-import com.lxz.opengl.media.dencode.MediaDecode;
-import com.lxz.opengl.media.dencode.VideoPlay;
+import com.lxz.opengl.media.decode.MediaDecode;
+import com.lxz.opengl.media.decode.VideoPlay;
 import com.lxz.opengl.media.stream.FileH264Stream;
 
 import androidx.annotation.Nullable;
 
 public class PlayEGLVideoActivity extends BaseActivity {
-    private CustomerRender gl_surface;
+    private CustomerSurfaceView gl_surface;
     private static final String TAG = "PlayMainActivity";
     private IDrawer drawer;
     private MediaDecode decode;

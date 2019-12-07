@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".demo1_simple.MainActivity">
 
-    <com.lxz.opengl.demo3_egl.CustomerRender
+    <com.lxz.opengl.demo3_egl.CustomerSurfaceView
         android:id="@+id/gl_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.lxz.opengl.demo3_egl.CustomerRender>
+    </com.lxz.opengl.demo3_egl.CustomerSurfaceView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

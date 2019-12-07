@@ -4,12 +4,14 @@ import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
+import com.lxz.opengl.Lg;
 import com.lxz.opengl.Utils;
 import com.lxz.opengl.demo2_glsurface.ISurfaceTextureCreate;
 
 import java.nio.FloatBuffer;
 
 public class VideoDrawer implements IDrawer {
+    private static final String TAG = "VideoDrawer";
     // 顶点坐标
     private float[] mVertexCoors = new float[]{
             -1f, -1f,
@@ -27,10 +29,10 @@ public class VideoDrawer implements IDrawer {
 //    };
 
     private float[] mTextureCoors = new float[]{
-            0f, 2f,
-            2f, 2f,
+            0f, 1f,
+            1f, 1f,
             0f, 0f,
-            2f, 0f
+            1f, 0f
     };
 
     private int mTextureId = -1;
@@ -67,6 +69,7 @@ public class VideoDrawer implements IDrawer {
 
     @Override
     public void setTextureID(int textureId) {
+        Lg.d(TAG, "setTextureID " + textureId);
         this.mTextureId = textureId;
         mSurfaceTexture = new SurfaceTexture(textureId);
         if (listener != null) {
