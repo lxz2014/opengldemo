@@ -15,6 +15,7 @@ import com.lxz.opengl.demo2_glsurface.drawer.VideoDrawer;
 import com.lxz.opengl.media.decode.MediaDecode;
 import com.lxz.opengl.media.decode.VideoPlay;
 import com.lxz.opengl.media.stream.FileH264SizeStream;
+import com.lxz.opengl.media.stream.FileH264Stream;
 
 import androidx.annotation.Nullable;
 
@@ -44,7 +45,7 @@ public class PlayVideoActivity extends BaseActivity {
                 Lg.e(TAG, "onSurfaceTextureCreate");
                 decode = new MediaDecode(width, height);
                 decode.initDecode(new Surface(surfaceTexture));
-                videoPlay = new VideoPlay(new FileH264SizeStream());
+                videoPlay = new VideoPlay(new FileH264Stream());
                 videoPlay.setDecode(decode);
             }
         });
