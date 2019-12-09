@@ -51,12 +51,12 @@ public class PlayVideoActivity extends BaseActivity {
         });
         gl_surface.setEGLContextClientVersion(2);
         gl_surface.setRenderer(new SimpleRender(drawer));
-        gl_surface.setOnClickListener(new View.OnClickListener() {
+        gl_surface.postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 videoPlay.startPlay();
             }
-        });
+        }, 100);
     }
 
     private void log() {

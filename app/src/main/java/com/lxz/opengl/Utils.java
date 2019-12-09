@@ -51,7 +51,7 @@ public class Utils {
 
     public static void sleep(int realTime) {
         try {
-            Thread.sleep(realTime);
+            Thread.sleep(realTime < 0 ? 0 : realTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
